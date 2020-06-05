@@ -19,6 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // Auth Routes...
+Route::post('login', 'API\Auth\LoginController@login');
 Route::post('register', 'API\Auth\RegisterController@register');
 Route::post('sms/verify', 'API\Auth\VerificationController@verify');
 Route::post('sms/resend', 'API\Auth\VerificationController@resend');
+Route::post('password/sms', 'API\Auth\ForgotPasswordController@sendResetOtpSms');
+Route::post('logout', 'API\Auth\LoginController@logout');

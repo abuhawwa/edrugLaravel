@@ -53,7 +53,7 @@ class VerificationController extends Controller
         try {
             $user = User::where('mobile', $request->mobile)->firstOrFail();
         } catch (ModelNotFoundException $e) {
-            return response()->json(["errors" => ["code" => ['user with mobile number not found!']]], 422);
+            return response()->json(["errors" => ["code" => ['User with mobile number not found!']]], 422);
         }
 
         // check user already verified

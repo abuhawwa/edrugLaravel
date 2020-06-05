@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use Abuhawwa\Textlocal\TextlocalChannel;
+use Abuhawwa\Textlocal\TextlocalMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,7 +13,6 @@ class Registered extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $user;
     protected $smsMsg;
 
     /**
@@ -19,9 +20,8 @@ class Registered extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($user, $smsMsg)
+    public function __construct($smsMsg)
     {
-        $this->user = $user;
         $this->smsMsg = $smsMsg;
     }
 
@@ -33,7 +33,7 @@ class Registered extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return is_null($notifiable->mobile_verified_at) ? ['mail'] : null;
+        return $notifiable->isVerified() ? [TextlocalChannel::class] : ['mail', TextlocalChannel::class];
     }
 
     /**
@@ -44,7 +44,7 @@ class Registered extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $firstName = $this->user->first_name;
+        $firstName = $notifiable->first_name;
         return (new MailMessage)
             ->subject('Welcome to eDrug!')
             ->markdown('mail.Registered', ['firstName' => $firstName]);
@@ -61,5 +61,17 @@ class Registered extends Notification implements ShouldQueue
         return [
             //
         ];
+    }
+
+    /**
+     * Get the sms representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Abuhawwa\Textlocal\Message
+     */
+    public function toTextlocal($notifiable)
+    {
+        return (new TextlocalMessage())
+            ->content($notifiable->isVerified() ? 'Your OTP to reset password ' . $this->smsMsg : 'Your OTP for registration ' . $this->smsMsg);
     }
 }

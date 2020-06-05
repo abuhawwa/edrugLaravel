@@ -74,4 +74,15 @@ class User extends Authenticatable
         else
             return false;
     }
+
+    /**
+     * Route notifications for the Textlocal channel.
+     *
+     * @param  \Illuminate\Notifications\Notification  $notification
+     * @return string
+     */
+    public function routeNotificationForTextlocal($notification)
+    {
+        return $this->mobile;
+    }
 }
