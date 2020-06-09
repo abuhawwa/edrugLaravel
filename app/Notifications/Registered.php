@@ -46,7 +46,7 @@ class Registered extends Notification implements ShouldQueue
     {
         $firstName = $notifiable->first_name;
         return (new MailMessage)
-            ->subject('Welcome to eDrug!')
+            ->subject('Welcome to xDrug!')
             ->markdown('mail.Registered', ['firstName' => $firstName]);
     }
 

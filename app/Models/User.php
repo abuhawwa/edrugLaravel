@@ -38,6 +38,17 @@ class User extends Authenticatable
         'mobile_verified_at' => 'datetime',
     ];
 
+    /**
+     * Get the user's Mobile number with 91.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getMobileAttribute($value)
+    {
+        return 91 . $value;
+    }
+
     /* 
      * check user is verified
     */

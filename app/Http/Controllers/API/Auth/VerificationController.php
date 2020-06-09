@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Traits\HasOtp;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class VerificationController extends Controller
 {

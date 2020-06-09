@@ -40,7 +40,7 @@ trait HasOtp
         $smsOtp = $this->getOtp();
 
         DB::table('password_resets')->insert([
-            'mobile' => $user->mobile,
+            'mobile' => substr($user->mobile, 2, 10),
             'token' => crypt($smsOtp, 'app_e_drug'),
             'created_at' => date('Y-m-d H:i:s')
         ]);
@@ -54,6 +54,6 @@ trait HasOtp
     public function notifyUser($user, $smsOtp)
     {
         $user->notify((new Registered("$smsOtp. Don't share with anyone!"))->delay(now()->addSeconds(15)));
-        return response()->json(['message' => 'An OTP sent to your mobile *******' . substr($user->mobile, 7)], 201);
+        return response()->json(['message' => 'An OTP sent to your mobile *******' . substr($user->mobile, 9)], 201);
     }
 }

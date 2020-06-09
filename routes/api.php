@@ -24,4 +24,5 @@ Route::post('register', 'API\Auth\RegisterController@register');
 Route::post('sms/verify', 'API\Auth\VerificationController@verify');
 Route::post('sms/resend', 'API\Auth\VerificationController@resend');
 Route::post('password/sms', 'API\Auth\ForgotPasswordController@sendResetOtpSms');
+Route::post('password/reset', 'API\Auth\ResetPasswordController@reset');
 Route::post('logout', 'API\Auth\LoginController@logout');

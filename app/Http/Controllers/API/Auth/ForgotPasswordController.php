@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Traits\HasOtp;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ForgotPasswordController extends Controller
 {
@@ -22,6 +23,7 @@ class ForgotPasswordController extends Controller
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'User with mobile number not found!'], 422);
         }
+        Log::info($user->mobile . ' requested for reset password');
         return $this->sendPasswordOtp($user);
     }
 }
